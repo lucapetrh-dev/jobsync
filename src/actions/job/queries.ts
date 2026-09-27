@@ -187,6 +187,7 @@ const JOB_SORT_SPECS: Record<JobSortField, SortFieldSpec> = {
   },
   title: { orderBy: (dir) => ({ JobTitle: { value: dir } }) },
   company: { orderBy: (dir) => ({ Company: { value: dir } }) },
+  status: { orderBy: (dir) => ({ Status: { value: dir } }) },
   location: {
     orderBy: (dir) => ({ Location: { value: dir } }),
     blanks: {

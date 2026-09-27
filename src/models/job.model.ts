@@ -77,6 +77,7 @@ export const JOB_SORT_FIELDS = {
   title: "asc",
   company: "asc",
   location: "asc",
+  status: "asc",
   matchScore: "desc",
   source: "asc",
 } as const satisfies Record<string, SortDir>;

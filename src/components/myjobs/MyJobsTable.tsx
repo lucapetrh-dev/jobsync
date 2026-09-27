@@ -79,7 +79,9 @@ function MyJobsTable({
             <SortableTableHead field="location" sort={sort} onSort={onSort} className="hidden md:table-cell">
               Location
             </SortableTableHead>
-            <TableHead>Status</TableHead>
+            <SortableTableHead field="status" sort={sort} onSort={onSort}>
+              Status
+            </SortableTableHead>
             <SortableTableHead field="matchScore" sort={sort} onSort={onSort} className="hidden md:table-cell text-center">
               Match
             </SortableTableHead>

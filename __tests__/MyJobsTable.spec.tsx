@@ -165,6 +165,15 @@ describe("MyJobsTable", () => {
     expect(screen.queryByText("0")).not.toBeInTheDocument();
   });
 
+  it("requests status sorting when the Status header is clicked", async () => {
+    const onSort = vi.fn();
+    renderTable([makeJob()], { onSort });
+
+    await userEvent.click(screen.getByRole("button", { name: "Status" }));
+
+    expect(onSort).toHaveBeenCalledWith("status");
+  });
+
   describe("row actions menu", () => {
     const user = userEvent.setup();
 
