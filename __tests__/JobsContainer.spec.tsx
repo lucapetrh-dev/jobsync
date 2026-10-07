@@ -1140,6 +1140,19 @@ describe("JobsContainer Search Functionality", () => {
       });
     });
 
+    it("sorts the Status column", async () => {
+      renderComponent();
+      await waitFor(() => expect(getJobsList).toHaveBeenCalledTimes(1));
+
+      await user.click(screen.getByRole("button", { name: "Status" }));
+
+      await waitFor(() => {
+        expect(getJobsList).toHaveBeenLastCalledWith(
+          1, 25, U, U, U, U, U, U, U, { field: "status", dir: "asc" },
+        );
+      });
+    });
+
     it("starts date and match columns descending", async () => {
       renderComponent();
       await waitFor(() => expect(getJobsList).toHaveBeenCalledTimes(1));

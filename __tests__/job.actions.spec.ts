@@ -299,6 +299,15 @@ describe("jobActions", () => {
         expect(prisma.job.count).toHaveBeenCalledTimes(1);
       });
 
+      it("sorts status on its canonical value", async () => {
+        await getJobsList(...sortArgs({ field: "status", dir: "asc" }));
+        expect(prisma.job.findMany).toHaveBeenCalledWith(
+          expect.objectContaining({
+            orderBy: [{ Status: { value: "asc" } }, ...BASE],
+          }),
+        );
+      });
+
       it("ignores a field outside the whitelist", async () => {
         await getJobsList(...sortArgs({ field: "userId", dir: "asc" }));
         expect(prisma.job.findMany).toHaveBeenCalledWith(
