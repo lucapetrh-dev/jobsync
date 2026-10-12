@@ -141,6 +141,7 @@ to `/api/mcp` returning 405 is expected; readiness testing uses `/healthz`.
 The existing desktop scheduler remains responsible for Gmail imports. It uses
 the hosted MCP endpoint and preserves the three-day overlap, duplicate checks,
 read-only Gmail access, evidence-based status changes, existing enrichment,
-and quiet runs when nothing changes. Its recorded schedule is daily at 02:00
-Europe/Berlin. Verify its saved schedule when changing the endpoint. Hosting
-JobSync does not move this scheduler off the desktop machine.
+and quiet runs when nothing changes. The migrated desktop schedule preserves
+the current task's cadence: Mondays at 02:00 Europe/Berlin. The previous cloud
+task remains paused to prevent duplicate writers. Hosting JobSync does not
+move the desktop scheduler off the desktop machine.
