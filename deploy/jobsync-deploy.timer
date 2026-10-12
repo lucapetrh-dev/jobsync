@@ -1,0 +1,10 @@
+[Unit]
+Description=Check JobSync production image every five minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=5min
+Unit=jobsync-deploy.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,18 @@
+[Unit]
+Description=Encrypted off-server backup for JobSync
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+ConditionPathExists=/etc/jobsync-backup.env
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/jobsync-backup.env
+ExecStart=/usr/local/lib/jobsync/jobsync-operations.py backup
+TimeoutStartSec=45min
+UMask=0077
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+PrivateTmp=true
+ProtectHome=true

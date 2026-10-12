@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily JobSync backup
+
+[Timer]
+OnCalendar=*-*-* 00:30:00 Europe/Berlin
+Persistent=true
+Unit=jobsync-backup.service
+
+[Install]
+WantedBy=timers.target
