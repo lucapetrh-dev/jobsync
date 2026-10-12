@@ -1,0 +1,16 @@
+[Unit]
+Description=Deploy validated JobSync production image
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+ConditionPathExists=/opt/jobsync/release.env
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/jobsync-backup.env
+ExecStart=/usr/local/lib/jobsync/jobsync-operations.py deploy
+TimeoutStartSec=45min
+UMask=0077
+Nice=10
+PrivateTmp=true
+ProtectHome=true

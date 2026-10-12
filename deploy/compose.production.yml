@@ -1,0 +1,49 @@
+services:
+  app:
+    image: ${JOBSYNC_IMAGE:?An immutable image digest is required}
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: file:/data/dev.db
+      NEXTAUTH_URL: https://jobs.lucapetracca.com
+      AUTH_TRUST_HOST: "true"
+      MCP_ENABLED: "true"
+      TZ: Europe/Berlin
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3737/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  tunnel:
+    image: cloudflare/cloudflared@sha256:9b49eed8f62806d5d45ddf59ecefb5710429598ea6d3fcccd2af938f621b2b07
+    command: ["tunnel", "--no-autoupdate", "run", "--token-file", "/run/secrets/tunnel_token"]
+    user: "0:0"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    secrets:
+      - tunnel_token
+    restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.25
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+secrets:
+  tunnel_token:
+    file: ./secrets/tunnel-token

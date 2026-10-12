@@ -13,6 +13,8 @@ import {
 
 export function makeTestDbUrl(): { url: string; dir: string } {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "jobsync-backup-"));
+  // Create the disposable SQLite file before invoking the schema engine.
+  fs.writeFileSync(path.join(dir, "test.db"), "");
   return { url: `file:${path.join(dir, "test.db")}`, dir };
 }
 

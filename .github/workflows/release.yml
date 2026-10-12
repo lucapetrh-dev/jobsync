@@ -25,6 +25,7 @@ concurrency:
 
 jobs:
   prepare:
+    if: github.repository == 'Gsync/jobsync'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.bump.outputs.version }}
