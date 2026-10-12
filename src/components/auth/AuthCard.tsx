@@ -17,7 +17,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
     <div className="mx-auto w-full max-w-md px-4">
       {/* App branding */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold tracking-tight">JobSync</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">JobSync</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Track your job search, powered by AI
         </p>
@@ -29,7 +29,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
           onClick={() => router.push("/signin")}
           className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all duration-200 ${
             mode === "signin"
-              ? "bg-background text-foreground shadow-xs"
+              ? "bg-card text-foreground shadow-xs"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -39,7 +39,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
           onClick={() => router.push("/signup")}
           className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all duration-200 ${
             mode === "signup"
-              ? "bg-background text-foreground shadow-xs"
+              ? "bg-card text-foreground shadow-xs"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >

@@ -30,9 +30,10 @@ function NavLink({ label, Icon, route, pathname, expanded }: NavLinkProps) {
       href={route}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "navlink h-10 w-full hover:text-foreground",
+        "navlink h-10 w-full hover:bg-accent hover:text-foreground",
         isActive ? "text-foreground" : "text-muted-foreground",
-        isActive && expanded && "rounded-md bg-accent"
+        isActive && "bg-accent",
+        expanded && "rounded-lg"
       )}
     >
       {isActive && (
@@ -44,7 +45,7 @@ function NavLink({ label, Icon, route, pathname, expanded }: NavLinkProps) {
       {/* Fixed-width lead box (= collapsed rail width) so the icon sits at the
           same spot in both states and never moves during the slide. */}
       <span className="flex h-full w-14 shrink-0 items-center justify-center">
-        <Icon className="h-6 w-6 shrink-0" strokeWidth={1.5} />
+        <Icon className="h-5 w-5 shrink-0" strokeWidth={1.5} />
       </span>
       <span
         className={cn(

@@ -208,6 +208,27 @@ Clients that support `streamable-http` natively can connect directly without `mc
 > **Self-hosting on a home network?** If your JobSync URL is a plain `http://` LAN address (not `localhost` or HTTPS), add `--allow-http` to the `mcp-remote` args — it refuses non-HTTPS URLs by default. The Settings page adds this flag automatically when it detects a non-localhost HTTP URL.
 
 
+## Interface conventions
+
+The interface uses local Geist and Geist Mono fonts, neutral light/dark surfaces,
+compact headings, and shared controls in `src/components/ui`. Theme colors live
+in `src/app/globals.css`; use semantic tokens such as `bg-card`,
+`text-muted-foreground`, and `border-border` rather than page-specific colors.
+Reserve colored badges for statuses and scores. Font redistribution terms are
+included in `src/app/fonts/Geist-LICENSE.txt`.
+
+The dashboard prioritizes recent applications and the default CV's saved review,
+with the activity calendar below. Opening it only reads saved data. CV feedback
+is a short plain-text preview; the full review remains in Profile. Dashboard
+cards stack according to the available content width, including when the
+assistant panel is docked. Keep page layout grids inside their own page rather
+than adding a grid to the shared application shell.
+
+Browser tests can target an isolated development server with
+`PLAYWRIGHT_BASE_URL=http://127.0.0.1:3738 npm run test:e2e`.
+The target must have the test account and its own disposable database; avoid
+running tests that create or delete records against a personal instance.
+
 ## Help
 
 In-app usage guides — getting started, jobs, automations, and MCP access — live in the [GitHub Wiki](https://github.com/Gsync/jobsync/wiki).

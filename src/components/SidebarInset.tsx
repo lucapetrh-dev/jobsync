@@ -14,11 +14,11 @@ function SidebarInset({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={cn(
-        "flex flex-1 flex-col sm:gap-4 sm:py-4",
+        "flex min-w-0 flex-1 flex-col",
         // Following the drag handle 200ms late reads as lag, not animation.
         isResizing
           ? "transition-none"
-          : "transition-[padding] duration-200 ease-in-out",
+          : "transition-none sm:transition-[padding] duration-200 ease-in-out",
         expanded
           ? APP_CONSTANTS.SIDEBAR_WIDTH.expanded.contentOffset
           : APP_CONSTANTS.SIDEBAR_WIDTH.collapsed.contentOffset,

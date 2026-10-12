@@ -12,10 +12,11 @@ import {
 import { SIDEBAR_LINKS } from "@/lib/constants";
 import SidebarToggle from "./SidebarToggle";
 import { AgentChatTrigger } from "./AgentChatTrigger";
+import PageBreadcrumbs from "./PageBreadcrumbs";
 
 async function Header() {
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background px-4 md:px-6 lg:px-8">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
@@ -25,14 +26,14 @@ async function Header() {
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
           <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-          <nav className="grid gap-6 text-lg font-medium">
+          <nav className="grid gap-2 text-sm font-medium">
             <SheetClose asChild>
               <Link
                 href="/dashboard"
-                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+                className="mb-4 flex items-center gap-3 px-2.5 text-base font-semibold"
               >
-                <Briefcase className="h-5 w-5 transition-all group-hover:scale-110" />
-                <span className="sr-only">JobSync</span>
+                <Briefcase className="h-5 w-5" />
+                <span>JobSync</span>
               </Link>
             </SheetClose>
             {SIDEBAR_LINKS.map((item) => {
@@ -44,7 +45,7 @@ async function Header() {
                 <SheetClose asChild key={item.label}>
                   <Link
                     href={item.route}
-                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                    className="flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                   >
                     <item.icon className="h-5 w-5" />
                     {item.label}
@@ -56,20 +57,8 @@ async function Header() {
         </SheetContent>
       </Sheet>
       <SidebarToggle />
-      <h1 className="font-semibold">
-        JobSync<span className="hidden sm:inline"> - Job Search Assistant</span>
-      </h1>
-      <div className="relative ml-auto flex-1 md:grow-0">
-        {/* <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          id="search"
-          type="search"
-          placeholder="Search..."
-          className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-        /> */}
-      </div>
-
-      <AgentChatTrigger />
+      <PageBreadcrumbs />
+      <div className="ml-auto"><AgentChatTrigger /></div>
     </header>
   );
 }

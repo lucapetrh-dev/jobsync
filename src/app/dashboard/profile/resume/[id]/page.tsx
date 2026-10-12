@@ -11,7 +11,7 @@ async function ResumePage({ params }: { params: Promise<{ id: string }> }) {
     getDefaultResumeId(),
   ]);
   return (
-    <div className="col-span-3">
+    <div className="space-y-5">
       <ResumeContainer resume={resume} defaultResumeId={defaultResumeId} />
     </div>
   );

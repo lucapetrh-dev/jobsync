@@ -7,9 +7,15 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const dynamic = "force-dynamic";
 
-const inter = localFont({
-  src: "./fonts/Inter-Variable.woff2",
-  variable: "--font-inter",
+const geist = localFont({
+  src: "./fonts/Geist-Variable.woff2",
+  variable: "--font-geist",
+  weight: "100 900",
+});
+
+const geistMono = localFont({
+  src: "./fonts/GeistMono-Variable.woff2",
+  variable: "--font-geist-mono",
   weight: "100 900",
 });
 
@@ -31,7 +37,8 @@ export default function RootLayout({ children }: Readonly<Props>) {
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter.variable
+          geist.variable,
+          geistMono.variable
         )}
       >
         <ThemeProvider

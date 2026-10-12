@@ -73,9 +73,9 @@ export function AgentChatPanel() {
           <div className="h-full w-px bg-transparent group-hover:bg-primary/50 transition-colors" />
         </div>
 
-        <div className="flex items-center gap-3 px-4 py-2.5 border-b bg-muted/20 shrink-0">
-          <SheetTitle className="text-[11px] font-bold tracking-[0.15em] uppercase text-foreground leading-none shrink-0 m-0">
-            AI AGENT
+        <div className="flex items-center gap-3 px-4 py-4 border-b shrink-0">
+          <SheetTitle className="text-sm font-medium text-foreground leading-none shrink-0 m-0">
+            Assistant
           </SheetTitle>
           <span className="text-muted-foreground/30 text-xs select-none">
             ···

@@ -80,7 +80,7 @@ export function RadialChartComponent({
   const scoreStart = improveSweep;
 
   return (
-    <div className="mx-auto w-full mb-[-20px]" style={{ maxWidth: size }}>
+    <div className="mx-auto w-full mb-2" style={{ maxWidth: size }}>
       <svg viewBox="-2 -2 264 190" className="w-full">
         {/* Improve (remaining) sector */}
         {animatedScore < 100 && (

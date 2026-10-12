@@ -32,7 +32,7 @@ function Sidebar({ user, signOutAction }: SidebarProps) {
             : APP_CONSTANTS.SIDEBAR_WIDTH.collapsed.rail,
         )}
       >
-        <div className="flex h-14 shrink-0 items-center overflow-hidden sm:mt-2">
+        <div className="flex h-16 shrink-0 items-center overflow-hidden">
           <div className="flex w-14 shrink-0 items-center justify-center">
             <Link
               href="/dashboard"
@@ -40,9 +40,9 @@ function Sidebar({ user, signOutAction }: SidebarProps) {
               onClick={(e) => {
                 if (isOnDashboard) e.preventDefault();
               }}
-              className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground md:h-8 md:w-8"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground"
             >
-              <Briefcase className="h-4 w-4 transition-transform group-hover:scale-110" />
+              <Briefcase className="h-4 w-4" strokeWidth={1.5} />
               <span className="sr-only">JobSync</span>
             </Link>
           </div>

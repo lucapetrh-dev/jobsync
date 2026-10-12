@@ -66,7 +66,7 @@ function CertificationCard({
                   href={credentialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-blue-500 hover:underline mt-1"
+                  className="inline-flex items-center gap-1 text-sm text-link hover:underline mt-1"
                 >
                   View Credential
                   <ExternalLink className="h-3.5 w-3.5" />
