@@ -39,8 +39,10 @@ Install Python 3, Docker Compose, and Restic. Install `jobsync-operations.py` as
 `/usr/local/lib/jobsync/jobsync-operations.py` with root ownership and mode `0750`.
 Install the four `deploy/jobsync-*.service` / `.timer` units in
 `/etc/systemd/system`. Create `/var/lib/jobsync` with root ownership and mode
-`0700`. Set `/etc/jobsync-backup.env` to the existing encrypted backup storage
-configuration, using mode `0600`. Restic credentials must work under systemd's
+`0700`. Set `/etc/jobsync-backup.env` to the exported values of the existing
+encrypted backup storage configuration, using mode `0600`. Resolve shell
+escapes or substitutions before writing this systemd EnvironmentFile; copying
+a shell configuration verbatim can change credential values. Restic credentials must work under systemd's
 `ProtectHome=true`; the password file must be outside home directories.
 
 Create the Access policies before publishing DNS. A dedicated, remotely managed
@@ -123,6 +125,11 @@ blocked marker only after the restored installation passes readiness. Review
 the `production` tag before re-enabling the deployment timer, so it does not
 immediately reapply the failed release. Never remove the blocked marker or
 downgrade an image without reviewing database migrations.
+
+Recovery also supports a fresh host. For an incomplete installation, surviving
+application containers are stopped and remaining files are backed up first.
+These partial recovery snapshots have no runnable image reference; retain them
+for diagnosis rather than selecting them as a complete restore source.
 
 Verify a restore in an isolated directory and Compose project periodically.
 After deployment, test browser sign-in, job updates, CV upload/download, MCP
