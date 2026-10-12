@@ -1,0 +1,33 @@
+name: Promote initial JobSync image
+on:
+  push:
+    branches: [feature/jobsync-ovh-deployment]
+    paths: [.github/workflows/jobsync-bootstrap-promote.yml]
+permissions:
+  contents: read
+  actions: read
+  packages: write
+jobs:
+  promote:
+    if: github.repository == 'lucapetrh-dev/jobsync'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify initial build result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RESULT=$(gh api repos/lucapetrh-dev/jobsync/actions/runs/38255866209 --jq '.conclusion')
+          REVISION=$(gh api repos/lucapetrh-dev/jobsync/actions/runs/38255866209 --jq '.head_sha')
+          test "$RESULT" = success
+          test "$REVISION" = 35e126abf77fec400f5ae12eb6310a72317cda0e
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Promote the accepted immutable image
+        run: |
+          docker buildx imagetools create \
+            --tag ghcr.io/lucapetrh-dev/jobsync:production \
+            ghcr.io/lucapetrh-dev/jobsync@sha256:d7dc374292ef46bcdb73ba0b9502ef02b08c21a6b3eda81946c31ed7000ba572

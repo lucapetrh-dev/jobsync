@@ -75,6 +75,9 @@ Environment variables can be set in `docker-compose.yml`:
 
 ### Updating
 
+For the private OVH installation, see the [deployment and recovery runbook](docs/deployment/jobsync-ovh.md).
+Its release workflow builds this fork and its server deployer backs up data before applying an image.
+
 From the project directory, run the deploy script to pull the latest changes and rebuild:
 
 ```sh
@@ -295,4 +298,3 @@ Access a wide range of AI models from multiple providers through a single API.
 If JobSync has been helpful in your job search, consider giving it a star on GitHub! It helps others discover the project and motivates continued development.
 
 Every star means a lot — thank you for your support!
-
