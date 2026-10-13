@@ -254,5 +254,5 @@
 
 /* The transparent brand mark follows the app theme, including logo fallbacks. */
 .dark img[src="/images/jobs-icon.svg"] {
-  filter: invert(1);
+  content: url("/images/jobs-logo-dark.png");
 }
