@@ -65,5 +65,8 @@ test("phone navigation reaches Appearance and saves dark mode", async ({ page })
   await expect(page.locator("html")).toHaveClass(/dark/);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   await page.getByRole("button", { name: "Appearance", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Save", exact: true })).toBeVisible();
   await page.screenshot({ path: ".implementation/jobs-phone-settings.png" });
+  await page.getByText("System", { exact: true }).click();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
 });
