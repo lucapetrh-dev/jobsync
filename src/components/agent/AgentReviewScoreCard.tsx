@@ -20,13 +20,13 @@ export function AgentReviewScoreCard({
   ];
 
   return (
-    <div className="rounded-sm border p-3">
+    <div className="rounded-lg bg-muted/50 p-4 tabular-nums">
       <RadialChartComponent score={scores.overall} size={size} />
       <div className="mt-1 grid grid-cols-3 gap-2">
         {items.map((item) => (
           <div key={item.label} className="text-center">
             <div className="text-xs text-muted-foreground">{item.label}</div>
-            <div className="font-semibold">{item.value}</div>
+            <div className="font-medium">{item.value}</div>
           </div>
         ))}
       </div>

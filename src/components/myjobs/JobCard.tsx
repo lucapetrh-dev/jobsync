@@ -71,7 +71,7 @@ export function JobCard({
           {job.Company?.id ? (
             <Link
               href={`/dashboard/admin/companies/${job.Company.id}`}
-              className="block truncate text-sm text-teal-600 underline-offset-4 hover:underline"
+              className="block truncate text-sm text-link underline-offset-4 hover:underline"
             >
               {job.Company.label}
             </Link>

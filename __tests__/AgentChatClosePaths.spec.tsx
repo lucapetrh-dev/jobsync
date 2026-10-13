@@ -151,7 +151,7 @@ describe("agent chat close paths", () => {
     expect(screen.queryByLabelText("Approval pending")).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /open assistant/i }).textContent,
-    ).toBe("Chat AI");
+    ).toBe("Assistant");
   });
 
   // Closing is the only abort with no on-screen trace: the panel that would

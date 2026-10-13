@@ -1,81 +1,43 @@
-import {
-  getActivityCalendarData,
-  getActivityDataForPeriod,
-  getJobsActivityForPeriod,
-  getJobsActivitySummary,
-  getRecentActivities,
-  getRecentJobs,
-} from "@/actions/dashboard.actions";
+import { getActivityCalendarData, getRecentJobs } from "@/actions/dashboard.actions";
+import { getDefaultResumeId, getResumeById } from "@/actions/profile.actions";
 import ActivityCalendar from "@/components/dashboard/ActivityCalendar";
-import JobsActivityCard from "@/components/dashboard/JobsActivityCard";
-import JobsApplied from "@/components/dashboard/JobsAppliedCard";
-import RecentCardToggle from "@/components/dashboard/RecentCardToggle";
-import WeeklyBarChartToggle from "@/components/dashboard/WeeklyBarChartToggle";
+import RecentApplicationsCard from "@/components/dashboard/RecentApplicationsCard";
+import CvAnalysisCard from "@/components/dashboard/CvAnalysisCard";
+import DashboardActions from "@/components/dashboard/DashboardActions";
+import type { Metadata } from "next";
+import type { Resume } from "@/models/profile.model";
 
-import { Metadata } from "next";
+export const metadata: Metadata = { title: "Dashboard" };
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
+async function readDefaultResume(): Promise<Resume | null> {
+  const id = await getDefaultResumeId();
+  if (!id) return null;
+  const result = await getResumeById(id);
+  if (!result?.success) throw new Error("Failed to load default CV");
+  return result.data ?? null;
+}
 
 export default async function Dashboard() {
-  const [
-    summary7Days,
-    summary30Days,
-    recentJobs,
-    recentActivities,
-    weeklyData,
-    activitiesData,
-    activityCalendarData,
-  ] = await Promise.all([
-    getJobsActivitySummary(7),
-    getJobsActivitySummary(30),
-    getRecentJobs(),
-    getRecentActivities(),
-    getJobsActivityForPeriod(),
-    getActivityDataForPeriod(),
-    getActivityCalendarData(),
+  const [jobs, resume, calendar] = await Promise.allSettled([
+    getRecentJobs(), readDefaultResume(), getActivityCalendarData(),
   ]);
-  const activityCalendarDataKeys = Object.keys(activityCalendarData);
+  const calendarData = calendar.status === "fulfilled" ? calendar.value : null;
   return (
-    <>
-      <div className="@container grid grid-cols-1 auto-rows-max items-start gap-2 md:gap-2 @3xl/main:col-span-2">
-        <div className="grid gap-2 @lg:grid-cols-4">
-          <JobsApplied />
-          <JobsActivityCard
-            data={[
-              { label: "7d", summary: summary7Days },
-              { label: "30d", summary: summary30Days },
-            ]}
-          />
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-medium tracking-tight">Dashboard</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Your applications and CV, at a glance.</p>
         </div>
-        <WeeklyBarChartToggle
-          charts={[
-            {
-              label: "Jobs",
-              data: weeklyData,
-              keys: ["value"],
-              axisLeftLegend: "JOBS APPLIED",
-            },
-            {
-              label: "Activities",
-              data: activitiesData.data,
-              keys: activitiesData.keys,
-              groupMode: "stacked",
-              axisLeftLegend: "TIME SPENT (Hours)",
-            },
-          ]}
-        />
+        <DashboardActions />
       </div>
-      <div className="@3xl/main:relative @3xl/main:self-stretch">
-        <RecentCardToggle jobs={recentJobs} activities={recentActivities} />
+      <div className="grid items-start gap-5 @4xl/main:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <RecentApplicationsCard jobs={jobs.status === "fulfilled" ? jobs.value ?? [] : []} unavailable={jobs.status === "rejected"} />
+        <CvAnalysisCard resume={resume.status === "fulfilled" ? resume.value : null} unavailable={resume.status === "rejected"} />
       </div>
-      <div className="w-full col-span-3">
-        <ActivityCalendar
-          years={activityCalendarDataKeys}
-          dataByYear={activityCalendarData}
-        />
-      </div>
-    </>
+      {calendarData ? <ActivityCalendar years={Object.keys(calendarData)} dataByYear={calendarData} /> : (
+        <p role="status" className="rounded-xl border bg-card p-5 text-sm text-muted-foreground">Activity calendar is unavailable. Please try again later.</p>
+      )}
+    </div>
   );
 }

@@ -209,7 +209,7 @@ function ResumeContainer({
       />
 
       {parsedReviewData && (
-        <Card>
+        <Card id="cv-review" className="scroll-mt-24">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <Sparkles className="h-4 w-4" />

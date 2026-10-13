@@ -9,7 +9,7 @@ export function AgentChatTrigger() {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       className="relative"
       aria-label={isOpen ? "Close assistant" : "Open assistant"}
       onClick={() => (isOpen ? close() : open())}
@@ -19,7 +19,7 @@ export function AgentChatTrigger() {
       ) : (
         <>
           <MessageSquare className="h-4 w-4" />
-          Chat AI
+          Assistant
         </>
       )}
       {/* Deliberately no streaming state: nothing generates while the panel

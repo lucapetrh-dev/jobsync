@@ -159,7 +159,7 @@ function CompaniesTable({
                     {company.watched && (
                       <span
                         title="On your watchlist"
-                        className="text-emerald-600 dark:text-emerald-400"
+                        className="text-link"
                       >
                         <Eye className="h-3.5 w-3.5" />
                       </span>

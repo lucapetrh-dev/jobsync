@@ -37,7 +37,7 @@ export default function SettingsSidebar({
             key={section.id}
             variant="ghost"
             className={cn(
-              "justify-start gap-2 rounded-none border-l-2",
+              "justify-start gap-2 rounded-lg border-l-2",
               isActive
                 ? "border-l-primary bg-muted font-medium"
                 : "border-l-transparent hover:border-l-muted-foreground/25",
