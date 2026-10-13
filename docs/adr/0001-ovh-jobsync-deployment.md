@@ -1,4 +1,4 @@
-# ADR 0001: Independent JobSync deployment on OVH
+# ADR 0001: Independent Jobs deployment on OVH
 
 Date: 2026-10-12
 
@@ -8,7 +8,7 @@ Owner: Luca Petracca
 
 ## Decision
 
-Run JobSync alongside Wallet on the existing OVH server as an independent Docker
+Run Jobs alongside Wallet on the existing OVH server as an independent Docker
 Compose project. Use SQLite and the existing file storage layout. Publish
 `jobs.lucapetracca.com` through a dedicated Cloudflare Tunnel, with email-based
 browser access and separate machine authentication for `/api/mcp`.

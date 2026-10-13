@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Briefcase } from "lucide-react";
+import AppIcon from "./AppIcon";
 import { APP_CONSTANTS, SIDEBAR_LINKS } from "@/lib/constants";
 import NavLink from "./NavLink";
 import { ProfileDropdown } from "./ProfileDropdown";
@@ -36,14 +36,14 @@ function Sidebar({ user, signOutAction }: SidebarProps) {
           <div className="flex w-14 shrink-0 items-center justify-center">
             <Link
               href="/dashboard"
+              aria-label="Jobs home"
               aria-current={isOnDashboard ? "page" : undefined}
               onClick={(e) => {
                 if (isOnDashboard) e.preventDefault();
               }}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground"
             >
-              <Briefcase className="h-4 w-4" strokeWidth={1.5} />
-              <span className="sr-only">JobSync</span>
+              <AppIcon className="h-8 w-8" />
             </Link>
           </div>
           <span
@@ -52,7 +52,7 @@ function Sidebar({ user, signOutAction }: SidebarProps) {
               expanded ? "opacity-100 delay-100" : "opacity-0",
             )}
           >
-            JobSync
+            Jobs
           </span>
         </div>
 

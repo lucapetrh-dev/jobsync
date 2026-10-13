@@ -65,5 +65,5 @@ export function buildSidebar(rewrittenIndexBody: string): string {
     .filter((match): match is RegExpExecArray => match !== null)
     .map((match) => `- [${match[1]}](${match[2]})`);
 
-  return `### JobSync Help\n\n- [Home](Home)\n${items.join("\n")}\n`;
+  return `### Jobs Help\n\n- [Home](Home)\n${items.join("\n")}\n`;
 }

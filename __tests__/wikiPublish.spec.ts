@@ -84,13 +84,13 @@ describe("rewriteWikiLinks", () => {
 
 describe("buildSidebar", () => {
   it("lists Home first, then every linked page in index order", () => {
-    const body = `# JobSync Help
+    const body = `# Jobs Help
 
 - [Getting Started](Getting-Started) — first run.
 - [Jobs](Jobs) — track applications.
 `;
     expect(buildSidebar(body)).toBe(
-      `### JobSync Help
+      `### Jobs Help
 
 - [Home](Home)
 - [Getting Started](Getting-Started)
@@ -101,6 +101,6 @@ describe("buildSidebar", () => {
 
   it("ignores prose lines and inline links outside the list", () => {
     const body = "Intro with a [link](Jobs).\n\n- [Jobs](Jobs) — track.\n";
-    expect(buildSidebar(body)).toBe("### JobSync Help\n\n- [Home](Home)\n- [Jobs](Jobs)\n");
+    expect(buildSidebar(body)).toBe("### Jobs Help\n\n- [Home](Home)\n- [Jobs](Jobs)\n");
   });
 });
