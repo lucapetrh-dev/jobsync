@@ -322,4 +322,4 @@ Every star means a lot — thank you for your support!
 
 ### App branding
 
-Jobs uses the supplied square artwork in both light and dark appearances. The shared app icon, favicon (16/32/48 px), Apple touch icon (180 px), and install icons (192/512 px) derive from `public/images/jobs-icon.png`. Run `node scripts/assets/build-jobs-icons.cjs` after replacing the master. The web manifest uses the name Jobs. Existing repository, backup formats, storage, and deployment identifiers remain compatible.
+Jobs uses a transparent suitcase mark from `public/images/jobs-icon.svg`. The app displays it in black in light appearance and white in dark appearance. The SVG favicon at `src/app/icon.svg` follows the browser appearance. The transparent fallback favicon (16/32/48 px), Apple touch icon (180 px), and install icons (192/512 px) derive from the vector master. Run `node scripts/assets/build-jobs-icons.cjs` after changing the mark. Existing repository, backup formats, storage, and deployment identifiers remain compatible.

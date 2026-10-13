@@ -2,11 +2,13 @@ const sharp = require('sharp');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-// Regenerate browser and install icons from the square brand master.
+// Regenerate browser and install icons from the transparent vector mark.
 async function main() {
-  const source = path.join('public', 'images', 'jobs-icon.png');
+  const source = path.join('public', 'images', 'jobs-icon.svg');
+  const vector = await fs.readFile(source, 'utf8');
+  const adaptive = vector.replace(/(<svg[^>]*>)/, '$1\n  <style>path[fill] { fill: #111111; } @media (prefers-color-scheme: dark) { path[fill] { fill: #ffffff; } }</style>');
+  await fs.writeFile('src/app/icon.svg', adaptive);
   for (const [file, size] of [
-    ['src/app/icon.png', 32],
     ['src/app/apple-icon.png', 180],
     ['public/icons/jobs-192.png', 192],
     ['public/icons/jobs-512.png', 512],

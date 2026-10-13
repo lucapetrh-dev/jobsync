@@ -16,11 +16,16 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.locator("body")).not.toContainText("JobSync");
       const icon = page.locator("aside img[alt='Jobs']");
       await expect(icon).toBeVisible();
+      await expect(icon).toHaveAttribute("src", "/images/jobs-icon.svg");
+      await expect(icon).toHaveCSS("filter", theme === "dark" ? "invert(1)" : "none");
+      await expect(icon.locator("..")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
       await expect.poll(() => icon.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
       await expect(page.locator("link[rel='apple-touch-icon']")).toHaveAttribute("href", /apple-icon\.png/);
-      const href = await page.locator("link[rel='icon'][type='image/png']").getAttribute("href");
+      const href = await page.locator("link[rel='icon'][type='image/svg+xml']").getAttribute("href");
       expect(href).toBeTruthy();
-      expect((await page.request.get(href!)).status()).toBe(200);
+      const favicon = await page.request.get(href!);
+      expect(favicon.status()).toBe(200);
+      expect(favicon.headers()["content-type"]).toContain("image/svg+xml");
     }
     await page.screenshot({ path: `.implementation/jobs-desktop-${theme}.png` });
     await page.setViewportSize({ width: 390, height: 844 });
