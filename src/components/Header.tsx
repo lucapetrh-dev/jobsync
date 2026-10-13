@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AppIcon from "./AppIcon";
-import { PanelLeft } from "lucide-react";
+import { PanelLeft, Settings } from "lucide-react";
 
 import { Button } from "./ui/button";
 import {
@@ -55,6 +55,15 @@ async function Header() {
                 </SheetClose>
               );
             })}
+            <SheetClose asChild>
+              <Link
+                href="/dashboard/settings"
+                className="flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                <Settings className="h-5 w-5" />
+                Settings
+              </Link>
+            </SheetClose>
           </nav>
         </SheetContent>
       </Sheet>

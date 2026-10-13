@@ -13,12 +13,25 @@ async function expectTransparentCorners(bytes: Buffer) {
 }
 
 for (const file of [
-  "public/images/jobs-icon.svg", "src/app/icon.svg", "src/app/apple-icon.png",
+  "public/images/jobs-icon.svg", "src/app/icon.svg",
   "public/images/jobs-logo-light.png", "public/images/jobs-logo-dark.png",
-  "public/icons/jobs-192.png", "public/icons/jobs-512.png",
 ]) {
   test(`${file} has no opaque background tile`, async () => {
     await expectTransparentCorners(await readFile(file));
+  });
+}
+
+for (const file of ["src/app/apple-icon.png", "public/icons/jobs-192.png", "public/icons/jobs-512.png"]) {
+  test(`${file} has a dark launcher tile and padded artwork`, async () => {
+    const { data, info } = await sharp(await readFile(file)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const pixel = (x: number, y: number) => [...data.subarray((y * info.width + x) * 4, (y * info.width + x) * 4 + 4)];
+    const edge = Math.floor(info.width * 0.04) - 1;
+    for (let i = 0; i < info.width; i++) {
+      expect(pixel(edge, i)).toEqual([11, 11, 11, 255]);
+      expect(pixel(i, edge)).toEqual([11, 11, 11, 255]);
+    }
+    const center = pixel(Math.floor(info.width / 2), Math.floor(info.height / 2));
+    expect(center[0]).toBeGreaterThan(100);
   });
 }
 

@@ -50,3 +50,23 @@ test("Jobs web manifest and browser icon assets are served", async ({ request })
   }
   expect((await request.get("/favicon.ico")).status()).toBe(200);
 });
+
+test("phone navigation reaches Appearance and saves dark mode", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Toggle Menu" }).click();
+  await page.getByRole("dialog").getByRole("link", { name: "Settings", exact: true }).click();
+  await expect(page).toHaveURL(/\/dashboard\/settings$/);
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.getByRole("button", { name: "Appearance", exact: true }).click();
+  await page.getByText("Dark", { exact: true }).click();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.reload();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.getByRole("button", { name: "Appearance", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Save", exact: true })).toBeVisible();
+  await page.screenshot({ path: ".implementation/jobs-phone-settings.png" });
+  await page.getByText("System", { exact: true }).click();
+  await page.getByRole("button", { name: "Save", exact: true }).click();
+});
