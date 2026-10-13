@@ -41,7 +41,7 @@ function Sidebar({ user, signOutAction }: SidebarProps) {
               onClick={(e) => {
                 if (isOnDashboard) e.preventDefault();
               }}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
             >
               <AppIcon className="h-8 w-8" />
             </Link>
