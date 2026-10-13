@@ -55,7 +55,7 @@ async function handler(req: Request): Promise<Response> {
 
   const { userId, tokenName } = auth;
 
-  const server = new McpServer({ name: "jobsync", version: "1.0.0" });
+  const server = new McpServer({ name: "Jobs", version: "1.0.0" });
 
   server.tool(
     "add_job",

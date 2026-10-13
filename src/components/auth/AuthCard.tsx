@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import AppIcon from "../AppIcon";
 import SigninForm from "./SigninForm";
 import SignupForm from "./SignupForm";
 
@@ -17,7 +18,8 @@ export default function AuthCard({ mode }: AuthCardProps) {
     <div className="mx-auto w-full max-w-md px-4">
       {/* App branding */}
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">JobSync</h1>
+        <AppIcon className="mx-auto mb-3 h-16 w-16 rounded-2xl" />
+        <h1 className="text-2xl font-semibold tracking-tight">Jobs</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Track your job search, powered by AI
         </p>

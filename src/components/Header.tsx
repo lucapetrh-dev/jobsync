@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PanelLeft, Briefcase } from "lucide-react";
+import AppIcon from "./AppIcon";
+import { PanelLeft } from "lucide-react";
 
 import { Button } from "./ui/button";
 import {
@@ -30,10 +31,11 @@ async function Header() {
             <SheetClose asChild>
               <Link
                 href="/dashboard"
+                aria-label="Jobs home"
                 className="mb-4 flex items-center gap-3 px-2.5 text-base font-semibold"
               >
-                <Briefcase className="h-5 w-5" />
-                <span>JobSync</span>
+                <AppIcon className="h-8 w-8" />
+                <span>Jobs</span>
               </Link>
             </SheetClose>
             {SIDEBAR_LINKS.map((item) => {

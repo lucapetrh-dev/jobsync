@@ -21,10 +21,13 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | JobSync",
-    default: "JobSync",
+    template: "%s | Jobs",
+    default: "Jobs",
   },
   description: "Job Application Tracking System",
+  applicationName: "Jobs",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: "Jobs", statusBarStyle: "default" },
 };
 
 interface Props {

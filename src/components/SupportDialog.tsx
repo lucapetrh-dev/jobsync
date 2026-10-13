@@ -68,7 +68,7 @@ export function SupportDialog({
           <div className="space-y-2">
             <h3 className="text-sm font-semibold">Copyright</h3>
             <p className="text-sm text-muted-foreground">
-              © {currentYear} JobSync. All rights reserved.
+              © {currentYear} Jobs. All rights reserved.
             </p>
             <a
               href="https://jobsync.ca/"

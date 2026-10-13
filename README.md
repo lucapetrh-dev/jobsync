@@ -1,4 +1,4 @@
-# JobSync
+# Jobs
 
 <p align="center"><strong>The self-hosted job search assistant with AI-powered resume review, job matching, and automated discovery</strong></p>
 
@@ -16,14 +16,14 @@
   <img src="https://img.shields.io/badge/self--hosted-Docker-blue" alt="Self-hosted with Docker">
 </p>
 
-JobSync is a free, open-source companion for your job search: track applications, manage and export resumes, and ask a built-in AI assistant to review a resume, match it against a job, write a cover letter, or add a job from a posting you paste in — all self-hosted on your own server, so your data stays under your control. AI features can run entirely locally via Ollama or through your choice of cloud provider, and JobSync's built-in MCP server lets AI agents like Claude Desktop add jobs and interview questions straight from your chat.
+Jobs is a free, open-source companion for your job search: track applications, manage and export resumes, and ask a built-in AI assistant to review a resume, match it against a job, write a cover letter, or add a job from a posting you paste in — all self-hosted on your own server, so your data stays under your control. AI features can run entirely locally via Ollama or through your choice of cloud provider, and Jobs's built-in MCP server lets AI agents like Claude Desktop add jobs and interview questions straight from your chat.
 
-![App Snapshot](./screenshots/jobsync-dashboard.png?raw=true "Jobsync dashboard")
+![App Snapshot](./screenshots/jobsync-dashboard.png?raw=true "Jobs dashboard")
 
 ## Key Features
 - **Application Tracker:** Keep a detailed record of all your job applications, including company details, job titles, application dates, and current status.
 
-  ![Jobs Applied List](./screenshots/jobsync-jobs.png?raw=true "Jobsync Jobs Page")
+  ![Jobs Applied List](./screenshots/jobsync-jobs.png?raw=true "Jobs page")
 
 - **Monitoring Dashboard:** Visualize your job search progress with an interactive dashboard that provides insights into your application activities, success rates, and upcoming tasks.
 
@@ -39,7 +39,7 @@ JobSync is a free, open-source companion for your job search: track applications
 
 - **Question Bank:** Build a library of interview questions with your answers, tagged by skill, so your preparation is in one place when the next interview comes up.
 
-- **Data Backup & Restore:** Download every job, resume, task, activity, contact and question — plus your uploaded resume files — as one zip from **Settings > Data**, and import it back on any JobSync instance. Backups never contain API keys, MCP tokens or passwords, and every import first saves a snapshot so you can undo it.
+- **Data Backup & Restore:** Download every job, resume, task, activity, contact and question — plus your uploaded resume files — as one zip from **Settings > Data**, and import it back on any Jobs instance. Backups never contain API keys, MCP tokens or passwords, and every import first saves a snapshot so you can undo it.
 
 - **AI Assistant:** A chat panel that stays docked beside whatever page you're on. Ask it to review a resume, score how well it matches the job you're viewing, write a tailored cover letter, or add a job straight from a posting you paste in — it asks for your confirmation before saving anything. See [Features in Detail](#ai-assistant-in-app-chat) below.
 
@@ -70,7 +70,7 @@ Environment variables can be set in `docker-compose.yml`:
 | `TZ` | Your timezone (e.g. `America/Edmonton`). **Set this on remote servers** to avoid activity time shifts. |
 | `AUTH_SECRET` | Auto-generated if not set. To set manually: `openssl rand -base64 32` |
 | `ENCRYPTION_KEY` | Encrypts the API keys you save in Settings. **Set your own** (`openssl rand -base64 32`) before adding any keys, and never change it afterwards — a new value makes every stored API key unrecoverable. |
-| `NEXTAUTH_URL` | The address you open JobSync at. Defaults to `http://localhost:3737`; on a homelab server, use the server's IP or hostname. |
+| `NEXTAUTH_URL` | The address you open Jobs at. Defaults to `http://localhost:3737`; on a homelab server, use the server's IP or hostname. |
 | `MCP_ENABLED` | Set to `false` to turn off the [MCP server](#mcp-server-ai-agent-integration). Enabled by default in `docker-compose.yml`. |
 
 ### Updating
@@ -96,7 +96,7 @@ On **Windows**, run the PowerShell equivalent from the project directory instead
 
 ### AI Assistant (In-App Chat)
 
-All of JobSync's AI features live in one place: a chat panel that docks to the side of the app instead of taking it over, so the page you were on stays visible and usable while the assistant works.
+All of Jobs's AI features live in one place: a chat panel that docks to the side of the app instead of taking it over, so the page you were on stays visible and usable while the assistant works.
 
 Open it from the **AI Assistant** button in the header, or let the app open it for you — the **Review** button on a resume and the **Match with AI** and **Cover Letter** buttons on a job all start the matching request in the panel.
 
@@ -137,13 +137,13 @@ More job board sources are on the way. Discovered jobs are surfaced for review �
 
 ### MCP Server (AI Agent Integration)
 
-JobSync exposes an MCP server so AI agents (Claude Desktop, Hermes, OpenClaw, etc.) can add job applications and Question Bank entries directly, with your approval.
+Jobs exposes an MCP server so AI agents (Claude Desktop, Hermes, OpenClaw, etc.) can add job applications and Question Bank entries directly, with your approval.
 
 #### Use Case
 
 Browsing a job posting or reading an interview question elsewhere and don't want to break your flow to log it manually? Just ask your connected AI agent, for example:
 
-- *"Add this job to JobSync (copy/paste the complete job details or try providing a link): Senior Backend Engineer at Acme Corp, JobType, location, Job description... "*
+- *"Add this job to Jobs (copy/paste the complete job details or try providing a link): Senior Backend Engineer at Acme Corp, JobType, location, Job description... "*
 - *"I just got asked this in an interview — add it to my Question Bank: 'How would you design a rate limiter?' with my answer: ..."*
 
 The agent resolves or creates the company, title, location, and tags by name, and reports back what it matched versus created — so your data stays de-duplicated without you having to switch to the app.
@@ -152,7 +152,7 @@ When you add a job with a substantial description and you've set a **default res
 
 #### 1. Generate a token
 
-1. Sign in to JobSync and go to **Settings > MCP Access**.
+1. Sign in to Jobs and go to **Settings > MCP Access**.
 2. Click **Generate**, give it a name (e.g. the client you'll connect, like "Claude Desktop"), and pick an expiry.
 3. Copy the token and config snippets shown — the full token is only displayed once.
 
@@ -182,7 +182,7 @@ When you add a job with a substantial description and you've set a **default res
 
 3. Save and fully restart Claude Desktop (quit, not just close the window).
 
-> **Note:** Claude Desktop only supports local (stdio) MCP servers directly, so `mcp-remote` is required as a bridge to JobSync's remote endpoint.
+> **Note:** Claude Desktop only supports local (stdio) MCP servers directly, so `mcp-remote` is required as a bridge to Jobs's remote endpoint.
 
 </details>
 
@@ -205,7 +205,7 @@ Clients that support `streamable-http` natively can connect directly without `mc
 
 </details>
 
-> **Self-hosting on a home network?** If your JobSync URL is a plain `http://` LAN address (not `localhost` or HTTPS), add `--allow-http` to the `mcp-remote` args — it refuses non-HTTPS URLs by default. The Settings page adds this flag automatically when it detects a non-localhost HTTP URL.
+> **Self-hosting on a home network?** If your Jobs URL is a plain `http://` LAN address (not `localhost` or HTTPS), add `--allow-http` to the `mcp-remote` args — it refuses non-HTTPS URLs by default. The Settings page adds this flag automatically when it detects a non-localhost HTTP URL.
 
 
 ## Interface conventions
@@ -316,6 +316,10 @@ Access a wide range of AI models from multiple providers through a single API.
 
 ## Support the Project
 
-If JobSync has been helpful in your job search, consider giving it a star on GitHub! It helps others discover the project and motivates continued development.
+If Jobs has been helpful in your job search, consider giving it a star on GitHub! It helps others discover the project and motivates continued development.
 
 Every star means a lot — thank you for your support!
+
+### App branding
+
+Jobs uses the supplied square artwork in both light and dark appearances. The shared app icon, favicon (16/32/48 px), Apple touch icon (180 px), and install icons (192/512 px) derive from `public/images/jobs-icon.png`. Run `node scripts/assets/build-jobs-icons.cjs` after replacing the master. The web manifest uses the name Jobs. Existing repository, backup formats, storage, and deployment identifiers remain compatible.

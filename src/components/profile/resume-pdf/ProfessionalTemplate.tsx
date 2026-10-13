@@ -118,7 +118,7 @@ export function ProfessionalResumeDocument({
   return (
     <Document
       author={`${ContactInfo?.firstName ?? ""} ${ContactInfo?.lastName ?? ""}`.trim()}
-      creator="jobsync.ca"
+      creator="Jobs"
       producer="react-pdf"
       title={resume.title}
     >

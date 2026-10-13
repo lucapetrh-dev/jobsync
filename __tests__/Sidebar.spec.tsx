@@ -192,11 +192,11 @@ describe("SidebarToggle", () => {
     const user = userEvent.setup();
     renderSidebar();
 
-    expect(screen.getByText("Jobs")).not.toHaveClass("opacity-0");
+    expect(within(screen.getByRole("navigation")).getByText("Jobs")).not.toHaveClass("opacity-0");
 
     await user.click(screen.getByRole("button", { name: "Collapse sidebar" }));
 
-    expect(screen.getByText("Jobs")).toHaveClass("opacity-0");
+    expect(within(screen.getByRole("navigation")).getByText("Jobs")).toHaveClass("opacity-0");
   });
 
   it("persists the collapsed state as a cookie", async () => {

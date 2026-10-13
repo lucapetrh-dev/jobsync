@@ -1,4 +1,4 @@
-# JobSync on OVH
+# Jobs on OVH
 
 The primary installation is `https://jobs.lucapetracca.com`. Its SQLite database,
 uploaded files, and saved settings live on OVH. The desktop MCP client writes
@@ -19,9 +19,9 @@ Protect secret files with mode `0600`, parent secret directories with `0700`, an
 never place them in source control or container build contexts.
 
 Cloudflare Access allows only `admin@lucapetracca.com` to the browser application,
-using an email code and then JobSync's normal sign-in. The exact `/api/mcp` path
+using an email code and then Jobs's normal sign-in. The exact `/api/mcp` path
 has a separate Service Auth application. Machine requests require both
-`CF-Access-Client-Id` / `CF-Access-Client-Secret` and the existing JobSync
+`CF-Access-Client-Id` / `CF-Access-Client-Secret` and the existing Jobs
 `Authorization: Bearer …` header. The machine credential has no browser access.
 The hostname bypasses caching; `/healthz` additionally sends `Cache-Control: no-store`.
 
@@ -29,7 +29,7 @@ The root-owned desktop credential file is not needed on the server. Store deskto
 MCP credentials in protected local storage and configure the MCP client to load
 headers from there. Rotate the Cloudflare service token before its one-year
 expiry and verify the replacement before revoking the old credential. Rotate
-the JobSync bearer token through application settings. Authentication-secret
+the Jobs bearer token through application settings. Authentication-secret
 rotation signs out browser sessions; encryption-key rotation requires
 re-encrypting saved provider keys before switching the key.
 
@@ -100,7 +100,7 @@ the service result and journal when checking deployment health.
 
 ## Backups and recovery
 
-Daily backups run at 00:30 Europe/Berlin. JobSync briefly stops while capturing
+Daily backups run at 00:30 Europe/Berlin. Jobs briefly stops while capturing
 the full data directory, secret files, Compose configuration, image reference,
 and recovery metadata. It restarts before the encrypted off-server upload.
 Failed uploads preserve the private local snapshot. Successful backups remove
@@ -143,5 +143,5 @@ the hosted MCP endpoint and preserves the three-day overlap, duplicate checks,
 read-only Gmail access, evidence-based status changes, existing enrichment,
 and quiet runs when nothing changes. The migrated desktop schedule preserves
 the current task's cadence: Mondays at 02:00 Europe/Berlin. The previous cloud
-task remains paused to prevent duplicate writers. Hosting JobSync does not
+task remains paused to prevent duplicate writers. Hosting Jobs does not
 move the desktop scheduler off the desktop machine.
