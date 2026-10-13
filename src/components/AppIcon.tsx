@@ -3,13 +3,23 @@ import { cn } from "@/lib/utils";
 
 export default function AppIcon({ className }: { className?: string }) {
   return (
-    <Image
-      src="/images/jobs-icon.svg"
-      alt="Jobs"
-      width={64}
-      height={64}
-      className={cn("shrink-0", className)}
-      unoptimized
-    />
+    <span role="img" aria-label="Jobs" className={cn("inline-flex shrink-0", className)}>
+      <Image
+        src="/images/jobs-logo-light.png"
+        alt=""
+        width={256}
+        height={256}
+        className="size-full object-contain dark:hidden"
+        unoptimized
+      />
+      <Image
+        src="/images/jobs-logo-dark.png"
+        alt=""
+        width={256}
+        height={256}
+        className="hidden size-full object-contain dark:block"
+        unoptimized
+      />
+    </span>
   );
 }

@@ -14,11 +14,11 @@ for (const theme of ["light", "dark"] as const) {
       await page.goto(route);
       await expect(page).toHaveTitle(/Jobs$/);
       await expect(page.locator("body")).not.toContainText("JobSync");
-      const icon = page.locator("aside img[alt='Jobs']");
+      const icon = page.locator("aside [role='img'][aria-label='Jobs'] img:visible");
       await expect(icon).toBeVisible();
-      await expect(icon).toHaveAttribute("src", "/images/jobs-icon.svg");
-      await expect(icon).toHaveCSS("filter", theme === "dark" ? "invert(1)" : "none");
-      await expect(icon.locator("..")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await expect(icon).toHaveAttribute("src", `/images/jobs-logo-${theme}.png`);
+      await expect(icon).toHaveCSS("filter", "none");
+      await expect(icon.locator("..").locator("..")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
       await expect.poll(() => icon.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
       await expect(page.locator("link[rel='apple-touch-icon']")).toHaveAttribute("href", /apple-icon\.png/);
       const href = await page.locator("link[rel='icon'][type='image/svg+xml']").getAttribute("href");

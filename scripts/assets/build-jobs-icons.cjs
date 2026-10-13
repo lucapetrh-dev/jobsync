@@ -1,22 +1,31 @@
 const sharp = require('sharp');
 const fs = require('node:fs/promises');
-const path = require('node:path');
 
-// Regenerate browser and install icons from the transparent vector mark.
+// Export the detailed artwork without replacing its texture or geometry.
 async function main() {
-  const source = path.join('public', 'images', 'jobs-icon.svg');
-  const vector = await fs.readFile(source, 'utf8');
-  const adaptive = vector.replace(/(<svg[^>]*>)/, '$1\n  <style>path[fill] { fill: #111111; } @media (prefers-color-scheme: dark) { path[fill] { fill: #ffffff; } }</style>');
-  await fs.writeFile('src/app/icon.svg', adaptive);
-  for (const [file, size] of [
-    ['src/app/apple-icon.png', 180],
-    ['public/icons/jobs-192.png', 192],
-    ['public/icons/jobs-512.png', 512],
+  const light = 'design/branding/jobs-logo-light.png';
+  const dark = 'design/branding/jobs-logo-dark.png';
+  for (const [file, size, source] of [
+    ['public/images/jobs-logo-light.png', 256, light],
+    ['public/images/jobs-logo-dark.png', 256, dark],
+    ['src/app/apple-icon.png', 180, light],
+    ['public/icons/jobs-192.png', 192, light],
+    ['public/icons/jobs-512.png', 512, light],
   ]) {
     await sharp(source).resize(size, size).png().toFile(file);
   }
+  const embedded = async (source, size) => (await sharp(source).resize(size, size).png().toBuffer()).toString('base64');
+  const black = await embedded(light, 64);
+  const white = await embedded(dark, 64);
+  await fs.writeFile('src/app/icon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>.dark { display: none; } @media (prefers-color-scheme: dark) { .light { display: none; } .dark { display: inline; } }</style>
+  <image class="light" width="64" height="64" href="data:image/png;base64,${black}"/>
+  <image class="dark" width="64" height="64" href="data:image/png;base64,${white}"/>
+</svg>\n`);
+  const fallback = await embedded(light, 256);
+  await fs.writeFile('public/images/jobs-icon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><image width="256" height="256" href="data:image/png;base64,${fallback}"/></svg>\n`);
   const sizes = [16, 32, 48];
-  const images = await Promise.all(sizes.map(size => sharp(source).resize(size, size).png().toBuffer()));
+  const images = await Promise.all(sizes.map(size => sharp(light).resize(size, size).png().toBuffer()));
   const header = Buffer.alloc(6 + sizes.length * 16);
   header.writeUInt16LE(1, 2);
   header.writeUInt16LE(sizes.length, 4);
