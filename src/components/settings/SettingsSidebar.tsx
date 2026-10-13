@@ -28,7 +28,7 @@ export default function SettingsSidebar({
   onSectionChange,
 }: SettingsSidebarProps) {
   return (
-    <nav className="flex flex-col gap-1 w-48 shrink-0">
+    <nav aria-label="Settings sections" className="flex w-full flex-wrap gap-1 md:w-48 md:shrink-0 md:flex-col">
       {SETTINGS_SECTIONS.map((section) => {
         const Icon = section.icon;
         const isActive = activeSection === section.id;

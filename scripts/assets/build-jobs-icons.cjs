@@ -8,11 +8,20 @@ async function main() {
   for (const [file, size, source] of [
     ['public/images/jobs-logo-light.png', 256, light],
     ['public/images/jobs-logo-dark.png', 256, dark],
-    ['src/app/apple-icon.png', 180, light],
-    ['public/icons/jobs-192.png', 192, light],
-    ['public/icons/jobs-512.png', 512, light],
   ]) {
     await sharp(source).resize(size, size).png().toFile(file);
+  }
+  // Launcher tiles retain their dark appearance independently of app theme.
+  for (const [file, size] of [
+    ['src/app/apple-icon.png', 180],
+    ['public/icons/jobs-192.png', 192],
+    ['public/icons/jobs-512.png', 512],
+  ]) {
+    const markSize = Math.round(size * 0.92);
+    const mark = await sharp(dark).resize(markSize, markSize).png().toBuffer();
+    const offset = Math.floor((size - markSize) / 2);
+    await sharp({ create: { width: size, height: size, channels: 3, background: '#0b0b0b' } })
+      .composite([{ input: mark, left: offset, top: offset }]).png().toFile(file);
   }
   const embedded = async (source, size) => (await sharp(source).resize(size, size).png().toBuffer()).toString('base64');
   const black = await embedded(light, 64);
