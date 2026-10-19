@@ -45,6 +45,13 @@ Jobs is a free, open-source companion for your job search: track applications, m
 
 - **AI Agent Integration (MCP):** Connect AI agents like Claude Desktop via a built-in MCP server to add job applications and Question Bank entries directly from your chat, with your approval. When a job description is substantial enough, the agent can also analyze it against your default resume and save a job match score right from the chat.
 
+## Private hosted installation
+
+The homepage at `jobs.lucapetracca.com` is a public, static private-workspace notice.
+The owner opens `/dashboard`; application pages and MCP remain access-controlled.
+See [deployment and rollback](docs/deployment/jobsync-ovh.md#public-landing-page)
+and the [landing-page decision](docs/adr/0002-private-jobs-landing.md).
+
 ## Quick Start
 
 Make sure [Docker](https://www.docker.com) is installed and running, then:

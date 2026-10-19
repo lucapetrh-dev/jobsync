@@ -1,6 +1,6 @@
 # Jobs on OVH
 
-The primary installation is `https://jobs.lucapetracca.com`. Its SQLite database,
+The private workspace is `https://jobs.lucapetracca.com/dashboard`. Its SQLite database,
 uploaded files, and saved settings live on OVH. The desktop MCP client writes
 directly to this installation; changing application data does not deploy code.
 
@@ -18,6 +18,7 @@ and 128 MiB respectively. Wallet uses its own project and services.
 Protect secret files with mode `0600`, parent secret directories with `0700`, and
 never place them in source control or container build contexts.
 
+The exact homepage is a static public landing page served by a separate Worker.
 Cloudflare Access allows only `admin@lucapetracca.com` to the browser application,
 using an email code and then Jobs's normal sign-in. The exact `/api/mcp` path
 has a separate Service Auth application. Machine requests require both
@@ -32,6 +33,83 @@ expiry and verify the replacement before revoking the old credential. Rotate
 the Jobs bearer token through application settings. Authentication-secret
 rotation signs out browser sessions; encryption-key rotation requires
 re-encrypting saved provider keys before switching the key.
+
+## Public landing page
+
+The Worker in `deploy/landing` serves only `/` for `GET` and `HEAD`. Other methods
+receive `405`. The page is identical for signed-in and anonymous visitors and
+ignores query parameters. All logos, fonts, styling, and favicon are embedded;
+it never fetches the application. Bookmark `/dashboard` for private access.
+
+The browser Access application's destination retains
+`uri: jobs.lucapetracca.com` with exactly this public override:
+
+```json
+[{ "path_pattern": "/", "behavior": "public" }]
+```
+
+This is a destination override, not an application with a root-path Bypass
+policy. Overrides do not implicitly match subpaths. Never use `/*` or remove
+the hostname-wide owner policy. Preserve the browser application's reusable
+policy attachment, `720h` session, identity provider, cookie settings, and all
+other existing settings. Do not change the MCP Access application or tunnel's
+required JWT validation.
+
+Use Node.js 22 or later for the separate Worker toolchain:
+
+```sh
+npm ci
+npm ci --prefix deploy/landing
+npm --prefix deploy/landing test
+npm --prefix deploy/landing run check
+npx playwright install chromium
+npm --prefix deploy/landing run test:browser
+```
+
+The production workflow runs these checks before image promotion. Worker
+publication is a separate operator deployment; application image updates do
+not publish it. `npm --prefix deploy/landing run deploy` publishes through
+Wrangler with the operator's Cloudflare credentials. A connected Cloudflare
+operator tool can alternatively upload the dry-run's compiled `entry.js` as
+an ES module, using `main_module: entry.js`, the configured compatibility date,
+no bindings, and the same observability settings. Disable both `workers.dev`
+and preview URLs before attaching a production route.
+
+For the initial rollout:
+
+1. Save protected snapshots of the browser and MCP Access applications, Worker
+   routes, and tunnel configuration. Record the current Worker version, if any.
+2. Deploy the tested Worker while the hostname-wide Access protection remains
+   unchanged. Set its production routes as follows, preserving unrelated routes:
+
+   | Pattern | Script |
+   | --- | --- |
+   | `jobs.lucapetracca.com/*` | `jobs-private-landing` |
+   | `jobs.lucapetracca.com/api/mcp*` | None |
+
+   Create the no-script exclusion through the zone Worker Routes API with
+   `{ "pattern": "jobs.lucapetracca.com/api/mcp*" }` (omit `script`). It is
+   maintained separately from Wrangler's routes. Recheck it after every deploy.
+3. Confirm anonymous homepage/dashboard requests are still challenged and
+   anonymous MCP remains denied. Confirm authenticated MCP initialization and
+   tool discovery before and after routing changes.
+4. Read-modify-write the browser application's `destinations` with the one
+   exact homepage override. Attach existing reusable policies by ID rather
+   than copying inline policy definitions. Read back the whole application
+   and verify all unrelated fields and the MCP/tunnel configuration are unchanged.
+5. Verify `/` and query-string variants return the branded page without cookies,
+   redirects, or external requests. Check light/dark, desktop/mobile, and 200%
+   text size. Verify `HEAD` and rejected write methods. Check protected paths,
+   unknown/encoded paths, forged identity headers, existing owner access,
+   sign-in, and authenticated/anonymous MCP behavior.
+
+Stop if exact overrides are rejected or not retained; do not substitute a broad
+bypass. Roll back immediately if a private path becomes public or owner/MCP
+access regresses. Restore the original browser destination first, verify the
+homepage is protected again, and then remove the new Worker routes or restore
+the previous Worker version. Keep snapshots and the published Worker version
+with the deployment verification record. This change requires no database
+migration or change to the OVH containers.
 
 ## Installation
 
