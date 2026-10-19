@@ -32,7 +32,7 @@ jobs:
       - run: python3 -m unittest discover -s tests/deployment -v
 
   image:
-    needs: verify
+    needs: [verify, landing]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -78,3 +78,22 @@ jobs:
           docker buildx imagetools create \
             --tag ghcr.io/lucapetrh-dev/jobsync:production \
             "ghcr.io/lucapetrh-dev/jobsync@$IMAGE_DIGEST"
+
+  landing:
+    if: github.repository == 'lucapetrh-dev/jobsync'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            deploy/landing/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix deploy/landing
+      - run: npm --prefix deploy/landing test
+      - run: npm --prefix deploy/landing run check
+      - run: npx playwright install --with-deps chromium
+      - run: npm --prefix deploy/landing run test:browser

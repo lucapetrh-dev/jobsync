@@ -1,0 +1,92 @@
+@font-face {
+  font-family: Geist;
+  src: url("__FONT__") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --background: #f7f7f7;
+  --foreground: #161616;
+  --muted: #646464;
+  font-family: Geist, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+main {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  text-align: center;
+}
+
+picture {
+  display: block;
+}
+
+picture img {
+  display: block;
+  width: 7.5rem;
+  height: 7.5rem;
+  object-fit: contain;
+}
+
+.message {
+  width: 100%;
+  max-width: 36rem;
+}
+
+h1 {
+  max-width: 17ch;
+  margin: 0 auto;
+  font-size: clamp(2.125rem, 5vw, 3.5rem);
+  font-weight: 560;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101010;
+    --foreground: #f2f2f2;
+    --muted: #a0a0a0;
+  }
+}
+
+@media (forced-colors: active) {
+  body {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  p {
+    color: CanvasText;
+  }
+}
